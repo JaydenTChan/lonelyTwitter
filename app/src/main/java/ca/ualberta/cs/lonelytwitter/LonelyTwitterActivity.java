@@ -32,7 +32,23 @@ public class LonelyTwitterActivity extends Activity {
 
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
+		Button happyButton = (Button) findViewById(R.id.happy);
+		Button sadButton = (Button) findViewById(R.id.happy);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
+
+		happyButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+
+			}
+		});
+
+		sadButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+
+			}
+		});
 
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
@@ -41,9 +57,7 @@ public class LonelyTwitterActivity extends Activity {
 				String text = bodyText.getText().toString();
 
 				normalTweet latestTweet = new normalTweet(text);
-				importantTweets lastestImportantTweet = new importantTweets(text);
 
-				//latestTweet.setMessage(latestTweet.getMessage() + "!");
 				saveInFile(text, new Date(System.currentTimeMillis()));
 				finish();
 

@@ -1,5 +1,6 @@
 package ca.ualberta.cs.lonelytwitter;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -8,10 +9,11 @@ import java.util.Date;
 public abstract class Tweet implements tweetable{
     private Date date;
     private String message;
+    private ArrayList<mood> moodList;
 
     public abstract Boolean isThisImportant();
 
-    public Tweet(Date date, String message{
+    public Tweet(Date date, String message){
         //message = "Hello All";
         this.date = date;
         this.message = message;
