@@ -2,6 +2,7 @@ package ca.ualberta.cs.lonelytwitter;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,24 +44,28 @@ public class LonelyTwitterActivity extends Activity {
 
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
+		Button clrButton = (Button) findViewById(R.id.clear); //Create an event for clear button
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) { //Listen for button click on 'saveButton'
+				setResult(RESULT_OK);
+				String text = bodyText.getText().toString();
 
-				//public void () {
-					setResult(RESULT_OK);
-					String text = bodyText.getText().toString();
+				normalTweet latestTweet = new normalTweet(text);
+				tweets.add(latestTweet);
+				adapter.notifyDataSetChanged();
 
-					normalTweet latestTweet = new normalTweet(text);
-					tweets.add(latestTweet);
-					adapter.notifyDataSetChanged();
-
-					saveInFile(text, new Date(System.currentTimeMillis()));
-					//finish();
-				//}
+				saveInFile();
+				bodyText.setText("");
 			}
+		});
+
+		clrButton.setOnClickListener(new View.OnClickListener(){
+				public void onClick(View v){
+					destroyFile();
+				}
 		});
 	}
 
@@ -76,7 +81,6 @@ public class LonelyTwitterActivity extends Activity {
 	}
 
 	private void loadFromFile() {
-		ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 		try {
 			FileInputStream fis = openFileInput(FILENAME);
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
@@ -93,9 +97,9 @@ public class LonelyTwitterActivity extends Activity {
 		}
 	}
 	
-	private void saveInFile(String text, Date date) {
+	private void saveInFile() {
 		try {
-			FileOutputStream fos = openFileOutput(FILENAME,0);
+			FileOutputStream fos = openFileOutput(FILENAME, 0);
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 			Gson gson = new Gson();
 			gson.toJson(tweets,out);
@@ -108,5 +112,21 @@ public class LonelyTwitterActivity extends Activity {
 			// TODO Auto-generated catch block
 			throw new RuntimeException();
 		}
+	}
+
+	private void destroyFile() {
+		// From http://stackoverflow.com/questions/14737996/android-deleting-a-file-from-internal-storage 01/19/2016
+		// Delete the save file from the disk
+		File dir = getFilesDir();
+		File file = new File(dir, FILENAME);
+		file.delete();
+
+		// Set the oldTweetsList container to nothing
+		tweets = new ArrayList<Tweet>();
+		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);
+		oldTweetsList.setAdapter(adapter);
+
+		// Reset body text
+		bodyText.setText("");
 	}
 }
