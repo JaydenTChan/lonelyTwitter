@@ -24,6 +24,16 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * Main activity for the LonelyTwitter APP
+ *<p>
+ *     LonelyTwitter is an application designed to allow the user to save messages
+ *     to his or herself while automatically logging them with the date. The data
+ *     is saved and is persistent through loads.
+ *
+ *     @author jayden1
+ *</p>
+ */
 public class LonelyTwitterActivity extends Activity {
 
 	private static final String FILENAME = "file.sav";
@@ -72,7 +82,13 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList.setAdapter(adapter);
 	}
 
-	private void loadFromFile() {
+	/**
+	 * This function is used to load the .json file from the phone's memory
+	 *
+	 * <p>Should a file not exist this function will create a new arraylist</br>
+	 * The functions loads an arraylist from the .json</p>
+	 */
+	protected void loadFromFile() {
 		try {
 			FileInputStream fis = openFileInput(FILENAME);
 			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
@@ -90,8 +106,13 @@ public class LonelyTwitterActivity extends Activity {
 			throw new RuntimeException();
 		}
 	}
-	
-	private void saveInFile() {
+
+	/**
+	 * This function is used to save the .json into the phone's memory
+	 *
+	 * <p>This overwrites the previous file, regardless of whether or not one exists</p>
+	 */
+	protected void saveInFile() {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
 					0);

@@ -3,7 +3,11 @@ package ca.ualberta.cs.lonelytwitter;
 import java.util.ArrayList;
 
 /**
+ * The tweetlist is a object to contain an arraylist of tweets
+ * <p>Created so that you may manipulate the arraylist of tweets easily.</p>
  * Created by jayden1 on 1/26/16.
+ *
+ * @author jayden1
  */
 public class TweetList {
     private ArrayList<Tweet> tweets=new ArrayList<Tweet>();
@@ -31,6 +35,11 @@ public class TweetList {
         return tweets.size();
     }
 
+    /**
+     * Returns a list in chronological order
+     * <p>Chronological order has oldest FIRST</p>
+     * @return the arraylist of tweets
+     */
     public ArrayList<Tweet> getTweets(){
         //Get tweets in chronological order (most recent last)
         ArrayList<Tweet> clonedList = new ArrayList<Tweet>();
