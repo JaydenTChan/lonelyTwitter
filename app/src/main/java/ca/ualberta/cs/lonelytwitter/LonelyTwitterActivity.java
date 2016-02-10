@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -69,6 +70,12 @@ public class LonelyTwitterActivity extends Activity {
 
 				//
 				//
+				Intent intent = new Intent(LonelyTwitterActivity.this,
+							IntentReaderActivity.class);
+				intent.putExtra(IntentReaderActivity.TEXT_TO_TRANSFORM_KEY, "test message 1");
+				intent.putExtra(IntentReaderActivity.MODE_OF_TRANSFORM_KEY,
+						IntentReaderActivity.NORMAL);
+				startActivity(intent);
 
 				//
 				//
