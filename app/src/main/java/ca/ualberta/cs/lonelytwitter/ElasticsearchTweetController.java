@@ -29,11 +29,17 @@ public class ElasticsearchTweetController {
         protected ArrayList<Tweet> doInBackground(String... search_strings){
             verifyClient();
 
+            String search_string = "";
+
             //Start our initial array list (empty)
             ArrayList<Tweet> tweets =  new ArrayList<Tweet>();
 
-            //Note: I'm making ahuge assumption here, that only the first search term will be used.
-            Search search = new Search.Builder(search_strings[0])
+            if (search_strings[0] != ""){
+                 search_string = "{\"query\": {\"match\":{ \"message\": \"" + search_strings[0] + "\"}}}";
+            }
+
+            //Note: I'm making a huge assumption here, that only the first search term will be used.
+            Search search = new Search.Builder(search_string)
                     .addIndex("testing")
                     .addType("tweet")
                     .build();

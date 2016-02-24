@@ -47,6 +47,8 @@ public class LonelyTwitterActivity extends Activity {
 
         bodyText = (EditText) findViewById(R.id.body);
         Button saveButton = (Button) findViewById(R.id.save);
+        Button searchButton = (Button) findViewById(R.id.clear);
+        Button refreshButton = (Button) findViewById(R.id.refresh);
         oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -59,21 +61,44 @@ public class LonelyTwitterActivity extends Activity {
                 adapter.notifyDataSetChanged();
 
                 AsyncTask<NormalTweet, Void, Void> execute = new ElasticsearchTweetController.AddTweetTask();
-                execute.execute();
+                execute.execute(latestTweet);
 
                 setResult(RESULT_OK);
             }
         });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                getTweets(bodyText.getText().toString());
+
+                setResult(RESULT_OK);
+            }
+        });
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                getTweets("");
+
+                setResult(RESULT_OK);
+            }
+        });
+        
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        getTweets("");
+    }
+
+    private void getTweets(String search){
         // Get latest tweets
         ElasticsearchTweetController.GetTweetsTask getTweetsTask = new ElasticsearchTweetController.GetTweetsTask();
         try{
-            getTweetsTask.execute("");
+            getTweetsTask.execute(search);
             tweets = getTweetsTask.get();
         }catch (InterruptedException e){
             e.printStackTrace();
@@ -84,42 +109,7 @@ public class LonelyTwitterActivity extends Activity {
         // Binds tweet list with view, so when our array updates, the view updates with it
         adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);
         oldTweetsList.setAdapter(adapter);
+        return;
     }
 
-    private void loadFromFile() {
-        try {
-            FileInputStream fis = openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            Gson gson = new Gson();
-
-            // Took from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 01-19 2016
-            Type listType = new TypeToken<ArrayList<NormalTweet>>() {
-            }.getType();
-            tweets = gson.fromJson(in, listType);
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            tweets = new ArrayList<Tweet>();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            throw new RuntimeException();
-        }
-    }
-
-    private void saveInFile() {
-        try {
-            FileOutputStream fos = openFileOutput(FILENAME, 0);
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-            Gson gson = new Gson();
-            gson.toJson(tweets, out);
-            out.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            throw new RuntimeException();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            throw new RuntimeException();
-        }
-    }
 }

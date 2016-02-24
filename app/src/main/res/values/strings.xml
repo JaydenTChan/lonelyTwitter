@@ -4,7 +4,8 @@
     <string name="hello">Joshua said:</string>
     <string name="app_name">LonelyTwitter</string>
     <string name="save">Save</string>
-    <string name="clear">Clear</string>
+    <string name="clear">Search</string>
+    <string name="refresh">Refresh</string>
     <string name="hello_world">Hello World!</string>
 
 </resources>
