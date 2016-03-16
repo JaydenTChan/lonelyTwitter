@@ -14,7 +14,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class LonelyTwitterActivity extends Activity {
 
@@ -64,15 +66,15 @@ public class LonelyTwitterActivity extends Activity {
                 String text = bodyText.getText().toString();
                 NormalTweet latestTweet = new NormalTweet(text);
 
-                tweets.add(latestTweet);
-
                 latestTweet.addThumbnail(thumbnail);
-
-                adapter.notifyDataSetChanged();
 
                 // Add the tweet to Elasticsearch
                 ElasticsearchTweetController.AddTweetTask addTweetTask = new ElasticsearchTweetController.AddTweetTask();
                 addTweetTask.execute(latestTweet);
+
+                tweets.add(0, latestTweet);
+
+                adapter.notifyDataSetChanged();
 
                 bodyText.setText("");
                 pictureButton.setImageResource(android.R.color.transparent);
