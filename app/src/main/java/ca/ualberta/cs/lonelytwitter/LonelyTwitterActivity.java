@@ -34,9 +34,11 @@ public class LonelyTwitterActivity extends Activity {
     private ImageButton pictureButton;
     private Bitmap thumbnail;
 
-    int numImportant;
+    //Changed to private
+    private int numImportant;
 
-    static final int REQUEST_CAPTURING_IMAGE = 1234;
+    //Also changed to private
+    private static final int REQUEST_CAPTURING_IMAGE = 1234;
     /**
      * Called when the activity is first created.
      */

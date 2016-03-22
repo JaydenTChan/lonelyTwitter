@@ -4,7 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
-import com.google.gson.Gson;
+//Removed unused import
+//import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -13,7 +14,7 @@ import io.searchbox.annotations.JestId;
 
 public abstract class Tweet {
     @JestId
-    protected String id;
+    private String id; //Changed to private
 
     public String getId() {
         return id;
@@ -23,11 +24,13 @@ public abstract class Tweet {
         this.id = id;
     }
 
-    protected Date date;
-    protected String message;
+    //Changed to local.
+    Date date;
+    String message;
 
-    protected transient Bitmap thumbnail;
-    protected String thumbnailBase64;
+    //Changed to private
+    private transient Bitmap thumbnail;
+    private String thumbnailBase64;
 
     public Tweet(Date date, String message, Bitmap thumbnail) {
         this.date = date;
@@ -35,12 +38,14 @@ public abstract class Tweet {
         this.thumbnail = thumbnail;
     }
 
-    public Tweet(Date date, String message) {
+    //Changed to local
+    Tweet(Date date, String message) {
         this.date = date;
         this.message = message;
     }
 
-    public Tweet(String message) {
+    //Changed to local
+    Tweet(String message) {
         this.message = message;
         this.date = new Date();
     }

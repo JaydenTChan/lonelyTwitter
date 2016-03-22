@@ -13,9 +13,10 @@ import android.widget.EditText;
  */
 public class LonelyTwitterActivityUITest extends ActivityInstrumentationTestCase2 {
 
-    Instrumentation instrumentation;
-    Activity activity;
-    EditText textInput;
+    //Changed all to private
+    private Instrumentation instrumentation;
+    private Activity activity;
+    private EditText textInput;
 
     public LonelyTwitterActivityUITest() {
         super(LonelyTwitterActivity.class);
