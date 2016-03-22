@@ -50,8 +50,8 @@ public class LonelyTwitterActivity extends Activity {
 
 	// http://developer.android.com/training/camera/photobasics.html
         pictureButton = (ImageButton) findViewById(R.id.pictureButton);
-        pictureButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(intent, REQUEST_CAPTURING_IMAGE);
@@ -66,7 +66,7 @@ public class LonelyTwitterActivity extends Activity {
                 String text = bodyText.getText().toString();
                 NormalTweet latestTweet = new NormalTweet(text);
 
-                myTweets.add(latestTweet);
+                myTweets.addNewTweet(latestTweet);
 
                 latestTweet.addThumbnail(thumbnail);
                 adapter.insert(latestTweet, 0);
@@ -77,7 +77,7 @@ public class LonelyTwitterActivity extends Activity {
                 addTweetTask.execute(latestTweet);
 
 
-	// http://stackoverflow.com/questions/11835251/remove-image-resource-of-imagebutton
+                // http://stackoverflow.com/questions/11835251/remove-image-resource-of-imagebutton
 
                 bodyText.setText("");
                 pictureButton.setImageResource(android.R.color.transparent);
@@ -107,12 +107,7 @@ public class LonelyTwitterActivity extends Activity {
         }
 
         //Count important tweets
-        numImportant = 0;
-        for ( Tweet aTweet: myTweets.getTweets() ){
-            if (aTweet.isImportant() == Boolean.TRUE){
-                numImportant++;
-            }
-        }
+        numImportant = myTweets.countImportant();
 
 //        adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);
         // Binds tweet list with view, so when our array updates, the view updates with it

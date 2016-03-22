@@ -20,7 +20,7 @@ public class TweetList {
         return tweets;
     }
 
-    public void add(Tweet tweet){
+    public void addNewTweet(Tweet tweet){
         tweets.add(tweet);
     }
 
@@ -34,6 +34,16 @@ public class TweetList {
 
     public void delete(Tweet tweet){
         tweets.remove(tweet);
+    }
+
+    public int countImportant(){
+        int numImportant = 0;
+        for (Tweet aTweet:this.tweets){
+            if(aTweet.isImportant() == Boolean.TRUE){
+                numImportant++;
+            }
+        }
+        return numImportant;
     }
 
 }
